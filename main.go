@@ -80,23 +80,17 @@ func startHTTPServer() {
 }
 
 func main() {
-	// Start the HTTP server
 	startHTTPServer()
 
-	// Create a new Fyne application
 	a := app.New()
 	w := a.NewWindow("RTMP Server")
 
-	// Create a label to show server status
 	statusLabel := widget.NewLabel("Server is not running")
 
-	// Declare the button
 	startStopButton := widget.NewButton("Start Server", nil)
 
-	// Create a variable to track server state
 	var serverRunning bool
 
-	// Set the OnTapped function for the button
 	startStopButton.OnTapped = func() {
 		if !serverRunning {
 			go func() {
@@ -109,24 +103,19 @@ func main() {
 			statusLabel.SetText("Server is running")
 			startStopButton.SetText("Stop Server")
 		} else {
-			// Note: This is a simplified stop. In a real application,
-			// you'd want to properly shut down the RTMP server.
 			serverRunning = false
 			statusLabel.SetText("Server is not running")
 			startStopButton.SetText("Start Server")
 		}
 	}
 
-	// Create a container with the label and button
 	content := container.NewVBox(
 		statusLabel,
 		startStopButton,
 	)
 
-	// Set the content of the window
 	w.SetContent(content)
 
-	// Show and run the application
 	w.Resize(fyne.NewSize(300, 100))
 	w.ShowAndRun()
 }
