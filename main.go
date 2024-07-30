@@ -1,15 +1,13 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"github.com/nareix/joy4/av/pubsub"
 	"github.com/nareix/joy4/format/rtmp"
+	"log"
 )
 
 var (
@@ -66,22 +64,7 @@ func startRTMPServer() error {
 	return server.ListenAndServe()
 }
 
-func startHTTPServer() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
-	})
-
-	log.Println("Starting HTTP server on :8000")
-	go func() {
-		if err := http.ListenAndServe(":8000", nil); err != nil {
-			log.Printf("HTTP server error: %v", err)
-		}
-	}()
-}
-
 func main() {
-	startHTTPServer()
-
 	a := app.New()
 	w := a.NewWindow("RTMP Server")
 
