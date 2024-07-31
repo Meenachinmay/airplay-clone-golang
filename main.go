@@ -50,14 +50,20 @@ func startRTMPServer() error {
 			return
 		}
 
-		conn.WriteHeader(streams)
+		err = conn.WriteHeader(streams)
+		if err != nil {
+			return
+		}
 
 		for {
 			packet, err := cursor.ReadPacket()
 			if err != nil {
 				break
 			}
-			conn.WritePacket(packet)
+			err = conn.WritePacket(packet)
+			if err != nil {
+				return
+			}
 		}
 	}
 
